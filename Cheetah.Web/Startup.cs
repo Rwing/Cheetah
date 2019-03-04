@@ -24,6 +24,10 @@ namespace Cheetah.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(option =>
+            {
+                option.AddPolicy("MyPolicy", builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -34,6 +38,7 @@ namespace Cheetah.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("MyPolicy");
             app.UseStaticFiles();
             app.UseMvc();
         }
