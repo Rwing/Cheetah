@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Cors;
+
 
 namespace Cheetah.Web.Controllers
 {
@@ -21,7 +21,6 @@ namespace Cheetah.Web.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
         }
-
         [HttpPost]
         public async Task<ActionResult> Post([FromForm] IFormFile file)
         {
@@ -46,7 +45,7 @@ namespace Cheetah.Web.Controllers
                         System.IO.File.Move(filePath, newfilePath);
                 }
                 var url = new Uri($"{Request.Scheme}://{Request.Host}/{today}/{newFileName}");
-                return Content(url.ToString());
+                return Ok(new { size = file.Length, url });
             }
             return BadRequest("not found file in form");
         }
