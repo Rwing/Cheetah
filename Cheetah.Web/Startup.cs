@@ -26,7 +26,7 @@ namespace Cheetah.Web
         {
             services.AddCors(option =>
             {
-                option.AddPolicy("MyPolicy", builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+                option.AddDefaultPolicy(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -38,7 +38,7 @@ namespace Cheetah.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("MyPolicy");
+            app.UseCors();
             app.UseStaticFiles();
             app.UseMvc();
         }
