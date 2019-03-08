@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cheetah.Web", "Cheetah.Web\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1B8AEF25-39DE-44FF-B227-AD2F61B19123}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
