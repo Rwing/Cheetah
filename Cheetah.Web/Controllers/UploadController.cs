@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
-
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Cheetah.Web.Controllers
 {
@@ -21,8 +22,9 @@ namespace Cheetah.Web.Controllers
         {
             _hostingEnvironment = hostingEnvironment;
         }
+
         [HttpPost]
-        public async Task<ActionResult> Post([FromForm] IFormFile file)
+        public async Task<ActionResult> Post([FromForm] IFormFile file, [FromForm]int? height, [FromForm]int? width)
         {
             if (file != null)
             {
@@ -43,6 +45,15 @@ namespace Cheetah.Web.Controllers
                     var newfilePath = Path.Combine(folder, newFileName);
                     if (!System.IO.File.Exists(newfilePath))
                         System.IO.File.Move(filePath, newfilePath);
+                    if (height.HasValue && width.HasValue)
+                    {
+                        using (var image = Image.Load(newfilePath))
+                        {
+                            image.Mutate(x => x
+                                 .Resize(width.Value, height.Value));
+                            image.Save(newfilePath); // Automatic encoder selected based on extension.
+                        }
+                    }
                 }
                 var url = new Uri($"{Request.Scheme}://{Request.Host}/{today}/{newFileName}");
                 return Ok(new { size = file.Length, url });
