@@ -6,7 +6,7 @@
 
 * [x] Docker support
 * [x] Upload file
-
+* [x] Image resize
 
 ## Todo
 
@@ -19,9 +19,10 @@ docker run -d -v /your/storage:/app/wwwroot -p 8080:80 rwingcn/cheetah:latest
 ```
 UPLOAD:
 ```
-POST /api/upload HTTP/1.1
-Host: localhost:8080
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="C:\test.jpg
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+curl -X POST \
+  http://localhost:8080/api/upload \
+  -H 'content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' \
+  -F 'file=@C:\test.jpg' \
+  -F width=200 \
+  -F height=100
 ```
