@@ -35,9 +35,10 @@ namespace Cheetah.Web.Controllers
                 var newFileName = string.Empty;
                 if (file.Length > 0)
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = new FileStream(filePath, FileMode.OpenOrCreate))
                     {
                         await file.CopyToAsync(stream);
+                        stream.Position = 0;
                         var sha = new SHA1Managed();
                         var hash = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "").ToLower();
                         newFileName = Path.GetFileNameWithoutExtension(file.FileName) + "_" + hash + Path.GetExtension(file.FileName);
